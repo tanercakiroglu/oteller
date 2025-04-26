@@ -2,6 +2,7 @@ package com.otel.reservation_service.common_config;
 
 import java.lang.reflect.Method;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,7 +12,7 @@ import org.springframework.util.StopWatch;
 
 @Aspect
 @Component
-@Log4j2
+@Slf4j
 public class LogInterceptor {
 
 

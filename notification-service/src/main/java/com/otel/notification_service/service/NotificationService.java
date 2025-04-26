@@ -4,12 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class NotificationService {
 
@@ -20,13 +20,13 @@ public class NotificationService {
     try {
       JsonNode reservationEvent = objectMapper.readTree(message);
       // Rezervasyon bilgilerini logla
-      System.out.println("Reservation Created Event Received: " + reservationEvent);
+      log.info("Reservation Created Event Received: {}", reservationEvent);
 
       // E-posta gönderme simülasyonu (isteğe bağlı)
       simulateEmailNotification(reservationEvent);
 
     } catch (IOException e) {
-      System.err.println("Error processing reservation event: " + e.getMessage());
+      log.error("Error processing reservation event: {}", e.getMessage());
     }
   }
 

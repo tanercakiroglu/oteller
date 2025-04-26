@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,7 +25,7 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 @ResponseBody
-@Log4j2
+@Slf4j
 public class GlobalExceptionHandler {
 
   private final MessageSource messageSource;

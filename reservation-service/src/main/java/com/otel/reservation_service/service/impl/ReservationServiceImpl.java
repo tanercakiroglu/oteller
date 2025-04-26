@@ -10,10 +10,12 @@ import com.otel.reservation_service.repository.ReservationRepository;
 import com.otel.reservation_service.request.ReservationRequestDTO;
 import com.otel.reservation_service.response.ReservationResponseDTO;
 import com.otel.reservation_service.service.ReservationService;
+import com.otel.reservation_service.service.ReservationValidator;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Loggable
-@Log4j2
+@Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
   private final ReservationRepository reservationRepository;
   private final ReservationMapper reservationMapper;
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final ObjectMapper objectMapper;
+  private final ReservationValidator reservationValidator;
 
   @Value("${spring.kafka.topic.reservation}")
   private String reservationTopic;
@@ -48,6 +51,7 @@ public class ReservationServiceImpl implements ReservationService {
   @Override
   @Transactional
   public ReservationResponseDTO create(ReservationRequestDTO reservationRequest) {
+    reservationValidator.validateDates(reservationRequest.getCheckInDate(),reservationRequest.getCheckOutDate());
     List<Reservation> conflictingReservations = reservationRepository.findConflictingReservations(
         reservationRequest.getHotelId(),
         reservationRequest.getRoomId(),
@@ -64,7 +68,7 @@ public class ReservationServiceImpl implements ReservationService {
       String reservationJson = objectMapper.writeValueAsString(savedReservation);
       kafkaTemplate.send(reservationTopic, reservationJson);
     } catch (Exception e) {
-     log.error("Reservation created event could be sent due to:{0}",e);
+     log.error("Reservation created event could be sent due to:",e);
     }
     return reservationMapper.map(savedReservation);
   }
