@@ -31,8 +31,7 @@ public class SecurityConfig {
     this.rsaKeys = rsaKeys;
   }
 
-  // Create a user
-  // TODO - Production - refactor the magic strings
+
   @Bean
   public MapReactiveUserDetailsService userDetailsRepository() {
     UserDetails user = User.withDefaultPasswordEncoder()
