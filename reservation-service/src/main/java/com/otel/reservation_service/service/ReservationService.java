@@ -15,4 +15,10 @@ public interface ReservationService {
   ReservationResponseDTO create(ReservationRequestDTO reservationRequest);
 
   void delete(Long id);
+
+  @Transactional
+  void cancel(Long id);
+
+  @Transactional
+  ReservationResponseDTO update(Long id, ReservationRequestDTO updateRequest);
 }

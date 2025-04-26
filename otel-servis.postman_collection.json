@@ -352,7 +352,7 @@
 			"response": []
 		},
 		{
-			"name": "get-room-by-id Copy",
+			"name": "del-room-by-id",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -391,7 +391,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2NjMyOTgsImlhdCI6MTc0NTY1OTY5OCwic2NvcGUiOiJST0xFX1JFQUQifQ.Ph692AQzjcSBKoLuLfk_wRSL_At5EM3remdKKZYqQmwLJLNC75iVu37WSnZxTyhx6veQkDnFtXOceA_X5hPtIDB4Kctq-qwZhUyKRyWkq1PY8JIrd8PmPn090tIBDne-zSPLdmjdcyKB3JJuB8DgfEAkHRLEYkHRsArScjHrSOtWuMfVtJ72q9jcwPOWpum7gwG5kLQ4ZLCszM41s-3JW4_bnxcZHOIyu7u3rwyiFWMyWDAJ3pWwEFkJ7BABN0B9slsVmdzWixrhdNsXDbmo1-5lW5INVQmVshras1bPO-7AOvjNuYy6bbj1nD3EqnphRMZGtbrmWMTQO3dFCZrhxA",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODkzNjgsImlhdCI6MTc0NTY4NTc2OCwic2NvcGUiOiJST0xFX1JFQUQifQ.evLFM_lpnM3rYhd1jZdJWy1FPX_2ldSMevERgCngaF4LL5HpN5pphtUg9MIc-08szYBW3y46G1fMMmnxmsl_P8KgKz3GUIZwXVcBykURooQ6PrcmXGLnLzyQ5NWh2PTUJPcVWWVMogz6AOGHdqJ1oAknFUye70v00d4JlYV14wynuXQhVaM8Lc18G3x25cVVdQFw2bslrak7DGKun-ISSHAXaPCE8ILU6hBtIs_bWWmsL3EWWCq0ast3j_12VPDZsNz6yBWEYShntgV106_WM_K2LV5GpeX6nNgFPbSboJVa8xt_MIH7Kfl81D7g1fyFWaUx_hnK5mF5XKzTWN0Glw",
 							"type": "string"
 						}
 					]
@@ -432,7 +432,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM1MjIsImlhdCI6MTc0NTY3OTkyMiwic2NvcGUiOiJST0xFX1JFQUQifQ.OXILEOChGIDZTPZ-Os0QzZWrmwhBwLpeZ8Ic0_o7fG9O8cZpU1bVCEZih4VRc4CmMATGZ8UrwBsOMNYZ5ev90vPovk2T46GAyZwafiPVefDXhSCpr4hQQ71WqYREPM6t499298CuGpqKu2hZcHGRVghscoKuTxpl1Ob1T7CIs1g1vKa4Kc6crjy7GtgRCzcUK6qCGYMWqBUxencGIh0ck2Du5_mh3SlBDcAETB46eY6cyHUm__yn1I6M1KXbgdUuVCMowMWwRM1Had_9baQmBW0srHlc8mcDEaT0xURFLJr6H85zDajzpNgV9fidG8RgtyOtlijuQPSN2aGdek1Zgg",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODkzNjgsImlhdCI6MTc0NTY4NTc2OCwic2NvcGUiOiJST0xFX1JFQUQifQ.evLFM_lpnM3rYhd1jZdJWy1FPX_2ldSMevERgCngaF4LL5HpN5pphtUg9MIc-08szYBW3y46G1fMMmnxmsl_P8KgKz3GUIZwXVcBykURooQ6PrcmXGLnLzyQ5NWh2PTUJPcVWWVMogz6AOGHdqJ1oAknFUye70v00d4JlYV14wynuXQhVaM8Lc18G3x25cVVdQFw2bslrak7DGKun-ISSHAXaPCE8ILU6hBtIs_bWWmsL3EWWCq0ast3j_12VPDZsNz6yBWEYShntgV106_WM_K2LV5GpeX6nNgFPbSboJVa8xt_MIH7Kfl81D7g1fyFWaUx_hnK5mF5XKzTWN0Glw",
 							"type": "string"
 						}
 					]
@@ -464,7 +464,7 @@
 			"response": []
 		},
 		{
-			"name": "get-reservations-by-id Copy",
+			"name": "del-reservations-by-id",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -503,6 +503,46 @@
 			"response": []
 		},
 		{
+			"name": "cancel-reservations-by-id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODkzNjgsImlhdCI6MTc0NTY4NTc2OCwic2NvcGUiOiJST0xFX1JFQUQifQ.evLFM_lpnM3rYhd1jZdJWy1FPX_2ldSMevERgCngaF4LL5HpN5pphtUg9MIc-08szYBW3y46G1fMMmnxmsl_P8KgKz3GUIZwXVcBykURooQ6PrcmXGLnLzyQ5NWh2PTUJPcVWWVMogz6AOGHdqJ1oAknFUye70v00d4JlYV14wynuXQhVaM8Lc18G3x25cVVdQFw2bslrak7DGKun-ISSHAXaPCE8ILU6hBtIs_bWWmsL3EWWCq0ast3j_12VPDZsNz6yBWEYShntgV106_WM_K2LV5GpeX6nNgFPbSboJVa8xt_MIH7Kfl81D7g1fyFWaUx_hnK5mF5XKzTWN0Glw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"1\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reservations/2/cancel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reservations",
+						"2",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "create-reservation",
 			"request": {
 				"auth": {
@@ -510,7 +550,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODMzNzIsImlhdCI6MTc0NTY3OTc3Miwic2NvcGUiOiJST0xFX1JFQUQifQ.SJ-ch911Rmx3CnWPtKWVftNaCeGnv59opYJz7iPEzR_7fN_I0V_hRrAv_hAoBsi10lXRGyc09mBWr2j-zEqD3w9KPOMJIsnSMNNnli1KHMPHw3vQHEoBId64biyNBwHcE-h_NQGcHvjOsZroo7vFK6kO9FWMEXrkiPy8klXF9-anG0YpcSRQrQzXRIBfSaI-16fDHhNczBSZAGLMyiqc8vtgdNRybeNV8dm6WquIp4UwDAW-1C7sVofLY3P2pUJh3OsT5YOcXHSHtkRmFTIpk46mq45dn2ONYsHMzzU_9x_KdPjNVEHnrIMC1EweExLkR1-v6SJB_jow1JTnBfIP5Q",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODkzNjgsImlhdCI6MTc0NTY4NTc2OCwic2NvcGUiOiJST0xFX1JFQUQifQ.evLFM_lpnM3rYhd1jZdJWy1FPX_2ldSMevERgCngaF4LL5HpN5pphtUg9MIc-08szYBW3y46G1fMMmnxmsl_P8KgKz3GUIZwXVcBykURooQ6PrcmXGLnLzyQ5NWh2PTUJPcVWWVMogz6AOGHdqJ1oAknFUye70v00d4JlYV14wynuXQhVaM8Lc18G3x25cVVdQFw2bslrak7DGKun-ISSHAXaPCE8ILU6hBtIs_bWWmsL3EWWCq0ast3j_12VPDZsNz6yBWEYShntgV106_WM_K2LV5GpeX6nNgFPbSboJVa8xt_MIH7Kfl81D7g1fyFWaUx_hnK5mF5XKzTWN0Glw",
 							"type": "string"
 						}
 					]
@@ -535,6 +575,45 @@
 					"port": "8080",
 					"path": [
 						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-reservation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODkzNjgsImlhdCI6MTc0NTY4NTc2OCwic2NvcGUiOiJST0xFX1JFQUQifQ.evLFM_lpnM3rYhd1jZdJWy1FPX_2ldSMevERgCngaF4LL5HpN5pphtUg9MIc-08szYBW3y46G1fMMmnxmsl_P8KgKz3GUIZwXVcBykURooQ6PrcmXGLnLzyQ5NWh2PTUJPcVWWVMogz6AOGHdqJ1oAknFUye70v00d4JlYV14wynuXQhVaM8Lc18G3x25cVVdQFw2bslrak7DGKun-ISSHAXaPCE8ILU6hBtIs_bWWmsL3EWWCq0ast3j_12VPDZsNz6yBWEYShntgV106_WM_K2LV5GpeX6nNgFPbSboJVa8xt_MIH7Kfl81D7g1fyFWaUx_hnK5mF5XKzTWN0Glw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"hotelId\": 10,\r\n  \"roomId\": 100,\r\n  \"guestName\": \"John Doe\",\r\n  \"checkInDate\": \"2025-11-10\",\r\n  \"checkOutDate\": \"2025-12-15\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reservations/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reservations",
+						"3"
 					]
 				}
 			},

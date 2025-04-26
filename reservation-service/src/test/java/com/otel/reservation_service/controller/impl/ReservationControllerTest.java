@@ -1,6 +1,7 @@
 package com.otel.reservation_service.controller.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.otel.reservation_service.common_config.response.WrapperCollectionResponse;
 import com.otel.reservation_service.common_config.response.WrapperResponse;
@@ -8,9 +9,13 @@ import com.otel.reservation_service.entity.Reservation;
 import com.otel.reservation_service.repository.ReservationRepository;
 import com.otel.reservation_service.request.ReservationRequestDTO;
 import com.otel.reservation_service.response.ReservationResponseDTO;
+import com.otel.reservation_service.service.EventProducer;
 import com.otel.reservation_service.util.KafkaTestConsumer;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,9 +42,14 @@ class ReservationControllerTest {
   @Autowired
   private KafkaTestConsumer testConsumer;
 
+  @Autowired
+  private EventProducer eventProducer;
+
+
   @BeforeEach
   void setUp() {
     testConsumer.reset();
+    testConsumer.setLatch(new CountDownLatch(1));
     reservationRepository.deleteAll();
   }
 
@@ -61,7 +71,7 @@ class ReservationControllerTest {
 
     boolean messageConsumed = testConsumer.getLatch().await(1, TimeUnit.SECONDS);
     assertThat(messageConsumed).isTrue();
-    assertThat(testConsumer.getPayloads().get(0)).contains("\"hotelId\":1");
+    assertThat(testConsumer.getLatestPayload()).contains("\"hotelId\":1");
   }
 
 
@@ -131,6 +141,31 @@ class ReservationControllerTest {
 
     assertThat(response.getBody().getErrorMessage().get(0).contains("99")).isEqualTo(true);
   }
+
+  @Test
+  void cancelReservation_shouldDeleteReservationAndSendKafkaEvent() throws InterruptedException {
+    // Arrange
+    Reservation existingReservation = new Reservation();
+    existingReservation.setHotelId(1L);
+    existingReservation.setRoomId(101L);
+    existingReservation.setGuestName("Test Guest");
+    existingReservation.setCheckInDate(LocalDate.now().plusDays(5));
+    existingReservation.setCheckOutDate(LocalDate.now().plusDays(7));
+    Reservation savedReservation = reservationRepository.save(existingReservation);
+    Long reservationId = savedReservation.getId();
+
+    // Act
+    ResponseEntity<WrapperResponse<Void>> response = restTemplate.exchange(
+        "/reservations/" + reservationId + "/cancel",
+        HttpMethod.DELETE,
+        null,
+        new ParameterizedTypeReference<>() {
+        });
+    // Assert
+    assertTrue(reservationRepository.findById(reservationId).isEmpty());
+    assertThat(testConsumer.getLatestPayload()).contains("\"hotelId\":1");
+  }
+
 
   private ResponseEntity<WrapperResponse<ReservationResponseDTO>> postReservation(
       ReservationRequestDTO reservation) {

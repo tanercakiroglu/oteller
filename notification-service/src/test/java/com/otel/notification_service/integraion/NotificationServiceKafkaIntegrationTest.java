@@ -15,7 +15,7 @@ public class NotificationServiceKafkaIntegrationTest {
   @Autowired
   private NotificationService notificationService;
 
-  @Value("${spring.kafka.topic.reservation}")
+  @Value("${kafka.topic.reservation-created}")
   private String topic;
 
   @Autowired

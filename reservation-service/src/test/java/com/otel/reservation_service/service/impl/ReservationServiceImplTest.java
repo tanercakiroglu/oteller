@@ -2,21 +2,27 @@ package com.otel.reservation_service.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.otel.reservation_service.common_config.exception.BusinessException;
 import com.otel.reservation_service.entity.Reservation;
 import com.otel.reservation_service.mapper.ReservationMapperImpl;
 import com.otel.reservation_service.repository.ReservationRepository;
 import com.otel.reservation_service.request.ReservationRequestDTO;
 import com.otel.reservation_service.response.ReservationResponseDTO;
+import com.otel.reservation_service.service.EventProducer;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,15 +35,11 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 class ReservationServiceImplTest {
 
-
   @Mock
   private ReservationRepository reservationRepository;
 
   @Mock
   private KafkaTemplate<String, String> kafkaTemplate;
-
-  @Mock
-  private ObjectMapper objectMapper;
 
   @InjectMocks
   private ReservationServiceImpl reservationService;
@@ -47,6 +49,9 @@ class ReservationServiceImplTest {
 
   @Spy
   ReservationValidatorImpl reservationValidator;
+
+  @Mock
+  EventProducerImpl eventProducer;
 
   @BeforeEach
   public void setUp() {
@@ -65,7 +70,6 @@ class ReservationServiceImplTest {
 
     when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
 
-    when(objectMapper.writeValueAsString(any())).thenReturn("{\"reservationId\": 1, \"hotelId\": 1, \"roomId\": 101, \"guestName\": \"John Doe\"}");
 
     ReservationRequestDTO reservationRequest = new ReservationRequestDTO();
     reservationRequest.setCheckInDate(now);
@@ -77,7 +81,6 @@ class ReservationServiceImplTest {
         reservationRequest);
 
     verify(reservationRepository, times(1)).save(reservation);
-    verify(kafkaTemplate, times(1)).send(any(), anyString());
     assertThat(createdReservation.getCheckOutDate()).isEqualTo(reservation.getCheckOutDate());
     assertThat(createdReservation.getCheckInDate()).isEqualTo(reservation.getCheckInDate());
     assertThat(createdReservation.getGuestName()).isEqualTo(reservation.getGuestName());
@@ -132,4 +135,30 @@ class ReservationServiceImplTest {
         .hasMessageContaining("1");
   }
 
+  @Test
+  void createReservation_shouldThrowConflictException_whenConflictExists() {
+    // Arrange
+    ReservationRequestDTO request = new ReservationRequestDTO();
+    request.setHotelId(1L);
+    request.setRoomId(101L);
+    request.setGuestName("Ahmet Yılmaz");
+    request.setCheckInDate(LocalDate.now().plusDays(1));
+    request.setCheckOutDate(LocalDate.now().plusDays(3));
+
+    Reservation conflictingReservation = new Reservation();
+    conflictingReservation.setId(2L);
+    conflictingReservation.setHotelId(1L);
+    conflictingReservation.setRoomId(101L);
+    conflictingReservation.setGuestName("Ayşe Demir");
+    conflictingReservation.setCheckInDate(LocalDate.now().plusDays(1));
+    conflictingReservation.setCheckOutDate(LocalDate.now().plusDays(2));
+
+    when(reservationRepository.findConflictingReservations(anyLong(),anyLong(), any(), any()))
+        .thenReturn(Collections.singletonList(conflictingReservation));
+
+    // Act & Assert
+    assertThrows(BusinessException.class, () -> reservationService.create(request));
+    verify(reservationRepository, never()).save(any(Reservation.class));
+    verify(eventProducer, never()).sendReservationCreatedEvent(any());
+  }
 }

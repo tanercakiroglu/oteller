@@ -41,4 +41,16 @@ public class ReservationController implements ReservationApi {
     reservationService.delete(id);
     return WrapperResponse.empty();
   }
+
+  @Override
+  public WrapperResponse<Void> cancelReservation(Long id) {
+    reservationService.cancel(id);
+    return WrapperResponse.empty();
+  }
+
+  @Override
+  public WrapperResponse<ReservationResponseDTO> updateReservation(Long id,
+      ReservationRequestDTO reservation) {
+    return WrapperResponse.of(reservationService.update(id,reservation));
+  }
 }

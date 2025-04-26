@@ -2,6 +2,7 @@ package com.otel.notification_service.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.otel.notification_service.model.ReservationResponseDTO;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +16,10 @@ public class NotificationService {
 
   private final ObjectMapper objectMapper;
 
-  @KafkaListener(topics = "${spring.kafka.topic.reservation}", groupId = "${spring.kafka.consumer.group-id}")
+  @KafkaListener(topics = "${kafka.topic.reservation-created}", groupId = "${spring.kafka.consumer.group-id}")
   public void listenReservationEvents(String message) {
     try {
-      JsonNode reservationEvent = objectMapper.readTree(message);
+      ReservationResponseDTO reservationEvent = objectMapper.readValue(message, ReservationResponseDTO.class);
       // Rezervasyon bilgilerini logla
       log.info("Reservation Created Event Received: {}", reservationEvent);
 
@@ -30,12 +31,12 @@ public class NotificationService {
     }
   }
 
-  private void simulateEmailNotification(JsonNode reservationEvent) {
+  private void simulateEmailNotification(ReservationResponseDTO reservationEvent) {
     // Bu metot, e-posta gönderme işlemini simüle eder.
     // Gerçek bir uygulamada, bir e-posta kütüphanesi veya servisi kullanılabilir.
-    String guestName = reservationEvent.get("guestName").asText();
-    String checkInDate = reservationEvent.get("checkInDate").asText();
-    String checkOutDate = reservationEvent.get("checkOutDate").asText();
+    String guestName = reservationEvent.getGuestName();
+    String checkInDate = reservationEvent.getCheckInDate().toString();
+    String checkOutDate = reservationEvent.getCheckOutDate().toString();
 
     String emailMessage = String.format(
         "Dear %s,\nYour reservation from %s to %s has been confirmed.",
