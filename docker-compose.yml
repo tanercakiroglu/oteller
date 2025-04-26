@@ -1,0 +1,82 @@
+version: '3.8'
+services:
+  otel-db:
+    image: postgres:15
+    container_name: otel-db
+    environment:
+      POSTGRES_USER: oteluser
+      POSTGRES_PASSWORD: otelpass
+      POSTGRES_DB: otel_db
+    ports:
+      - "5432:5432" # Veritabanına dışarıdan erişime ihtiyacınız varsa bu satırı bırakın
+    volumes:
+      - otel_db_data:/var/lib/postgresql/data
+  
+  hotel-service:
+    build: ./hotel-service
+    container_name: hotel-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://otel-db:5432/otel_db # docker-compose ile çalışırken otel-db host adını kullanın
+      SPRING_DATASOURCE_USERNAME: oteluser
+      SPRING_DATASOURCE_PASSWORD: otelpass
+    depends_on: 
+      - otel-db
+    
+  reservation-service:
+    build: ./reservation-service
+    container_name: reservation-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://otel-db:5432/otel_db # docker-compose ile çalışırken otel-db host adını kullanın
+      SPRING_DATASOURCE_USERNAME: oteluser
+      SPRING_DATASOURCE_PASSWORD: otelpass
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: otel-kafka:9092 # docker-compose ile çalışırken otel-kafka host adını kullanın
+    depends_on: 
+      - otel-db
+    
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: otel-kafka:9092 
+    depends_on: 
+      - otel-kafka
+    
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on: 
+      - hotel-service
+      - reservation-service
+      - notification-service
+    
+  otel-kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: otel-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: otel-zookeeper:2181 # Zookeeper'ın adresi ve portu
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://otel-kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    depends_on:
+      - otel-zookeeper
+
+  otel-zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: otel-zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+volumes:
+  otel_db_data:
+ 
+networks:
+  otel-network: # Özel ağ tanımı
+    driver: bridge 

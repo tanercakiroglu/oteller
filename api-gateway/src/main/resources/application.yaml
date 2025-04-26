@@ -1,0 +1,39 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: hotel-service
+          uri: http://hotel-service:8081 # Otel Servisi'nin adresi
+          predicates:
+            - Path=/hotels/**, /rooms/**
+          filters:
+            - JwtTokenFilterFactory
+        - id: reservation-service
+          uri: http://reservation-service:8082 # Rezervasyon Servisi'nin adresi
+          predicates:
+            - Path=/reservations/**
+          filters:
+            - JwtTokenFilterFactory
+        - id: notification-service
+          uri: http://notification-service:8083 # Bildirim Servisi'nin adresi (Gerekirse)
+          predicates:
+            - Path=/notifications/** # Gerekirse bir yol belirleyin
+          filters:
+            - JwtTokenFilterFactory
+
+logging:
+  level:
+    org.apache.commons.httpclient: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.boot.web.embedded.netty: DEBUG
+    org.springframework.security.core: DEBUG
+    org.springframework.cloud.context.scope: DEBUG
+    org.springframework.security : DEBUG
+    reactor.netty.http.client: DEBUG
+    com.otel.api_gateway: DEBUG
+  pattern:
+    console: '%d{HH:mm:ss.SSS} %highlight(%-5level) : %msg%n - %magenta([%thread]) %logger.%M'
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
