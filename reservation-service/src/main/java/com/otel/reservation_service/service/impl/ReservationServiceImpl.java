@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
-
   private final ReservationRepository reservationRepository;
   private final ReservationMapper reservationMapper;
   private final EventProducer eventProducer;
@@ -87,6 +86,8 @@ public class ReservationServiceImpl implements ReservationService {
   @Override
   @Transactional
   public ReservationResponseDTO update(Long id, ReservationRequestDTO updateRequest) {
+    reservationValidator.validateDates(updateRequest.getCheckInDate(),
+        updateRequest.getCheckOutDate());
     Reservation existingReservation = reservationRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
 
