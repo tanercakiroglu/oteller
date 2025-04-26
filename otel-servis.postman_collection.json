@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "f7f97b07-1c66-48a9-8576-0885031904f4",
+		"name": "otel-servis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23343668"
+	},
+	"item": [
+		{
+			"name": "get-token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-hotel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM2MzUsImlhdCI6MTc0NTY4MDAzNSwic2NvcGUiOiJST0xFX1JFQUQifQ.DJmiCzW9akKfxYjeMl5_VdCxOkbpcvZBWZIMuGy7iqxxGEbVyFAu3_JLF_E2AwpsGkuso94z-MU3sC9WDSOi6Bv0DeSNVmpSYZAkzPPcnDOw7veMjWSLHa41Y3X4htoy3VjdYTYWhdZJkj2MBjhsS1s9KZF4O1NMXupkv3arorK4f-hIwEXlo-VAmk_BmzMDDRF4_ZZiaj6aN6jqVs89__spf1e7PsD3Q7i5dfJer8jChNBHIsFodchgem1dvWqJRY4J-beIUYKV9Gz-MvixeU3E6R4Lm6eJOkOJu3Ny02867_GcDnRVsWijHPp96dQzhreEWzozUFPOcSfHIMerNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"hotel4\",\r\n    \"address\": \"adress4\",\r\n    \"starRating\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/hotels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-hotel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM2MzUsImlhdCI6MTc0NTY4MDAzNSwic2NvcGUiOiJST0xFX1JFQUQifQ.DJmiCzW9akKfxYjeMl5_VdCxOkbpcvZBWZIMuGy7iqxxGEbVyFAu3_JLF_E2AwpsGkuso94z-MU3sC9WDSOi6Bv0DeSNVmpSYZAkzPPcnDOw7veMjWSLHa41Y3X4htoy3VjdYTYWhdZJkj2MBjhsS1s9KZF4O1NMXupkv3arorK4f-hIwEXlo-VAmk_BmzMDDRF4_ZZiaj6aN6jqVs89__spf1e7PsD3Q7i5dfJer8jChNBHIsFodchgem1dvWqJRY4J-beIUYKV9Gz-MvixeU3E6R4Lm6eJOkOJu3Ny02867_GcDnRVsWijHPp96dQzhreEWzozUFPOcSfHIMerNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"hotel2\",\r\n    \"address\": \"adress\",\r\n    \"starRating\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/hotels/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotels",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-hotels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM2MzUsImlhdCI6MTc0NTY4MDAzNSwic2NvcGUiOiJST0xFX1JFQUQifQ.DJmiCzW9akKfxYjeMl5_VdCxOkbpcvZBWZIMuGy7iqxxGEbVyFAu3_JLF_E2AwpsGkuso94z-MU3sC9WDSOi6Bv0DeSNVmpSYZAkzPPcnDOw7veMjWSLHa41Y3X4htoy3VjdYTYWhdZJkj2MBjhsS1s9KZF4O1NMXupkv3arorK4f-hIwEXlo-VAmk_BmzMDDRF4_ZZiaj6aN6jqVs89__spf1e7PsD3Q7i5dfJer8jChNBHIsFodchgem1dvWqJRY4J-beIUYKV9Gz-MvixeU3E6R4Lm6eJOkOJu3Ny02867_GcDnRVsWijHPp96dQzhreEWzozUFPOcSfHIMerNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer sadasd",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/hotels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-hotels-by-id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM2MzUsImlhdCI6MTc0NTY4MDAzNSwic2NvcGUiOiJST0xFX1JFQUQifQ.DJmiCzW9akKfxYjeMl5_VdCxOkbpcvZBWZIMuGy7iqxxGEbVyFAu3_JLF_E2AwpsGkuso94z-MU3sC9WDSOi6Bv0DeSNVmpSYZAkzPPcnDOw7veMjWSLHa41Y3X4htoy3VjdYTYWhdZJkj2MBjhsS1s9KZF4O1NMXupkv3arorK4f-hIwEXlo-VAmk_BmzMDDRF4_ZZiaj6aN6jqVs89__spf1e7PsD3Q7i5dfJer8jChNBHIsFodchgem1dvWqJRY4J-beIUYKV9Gz-MvixeU3E6R4Lm6eJOkOJu3Ny02867_GcDnRVsWijHPp96dQzhreEWzozUFPOcSfHIMerNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/hotels/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotels",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-hotels-by-id Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM2MzUsImlhdCI6MTc0NTY4MDAzNSwic2NvcGUiOiJST0xFX1JFQUQifQ.DJmiCzW9akKfxYjeMl5_VdCxOkbpcvZBWZIMuGy7iqxxGEbVyFAu3_JLF_E2AwpsGkuso94z-MU3sC9WDSOi6Bv0DeSNVmpSYZAkzPPcnDOw7veMjWSLHa41Y3X4htoy3VjdYTYWhdZJkj2MBjhsS1s9KZF4O1NMXupkv3arorK4f-hIwEXlo-VAmk_BmzMDDRF4_ZZiaj6aN6jqVs89__spf1e7PsD3Q7i5dfJer8jChNBHIsFodchgem1dvWqJRY4J-beIUYKV9Gz-MvixeU3E6R4Lm6eJOkOJu3Ny02867_GcDnRVsWijHPp96dQzhreEWzozUFPOcSfHIMerNw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"hotel1\",\r\n    \"address\": \"adress\",\r\n    \"starRating\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/hotels/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hotels",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"10\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-rooms",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2NTk2MjYsImlhdCI6MTc0NTY1NjAyNiwic2NvcGUiOiJST0xFX1JFQUQifQ.sMgsMIua1CbIgW_X4nkMj2-Dhiq49V7nK5XJ66yGx4OCkJrYEXXZsjuQaIvpL-B64NDjUOUwwMhgrKbwhTr640sLGbm3QO1N9vvM-LDOppLeGpm7K97uWNhn9HZ44CZo7J_NLMhHAricrEF_3oECI54AB3jx_xTYa77IadNaDW3cPagT31jIpr1ebACCdOrog8LZRdrKBXTi5lOjF3kJoFPW30VKucWkYULkma1VyqMBaKUE9HCQFO7I2o6zpccxQc5iXu1ghMbFj3hCR_AfaQ9VTtgBYYZqTSsZ45TYK-DEaBEJYJ8At6OfB4G6ArbGf3B3To1mJ5Sf4J1TAI2oLw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"1\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-room-by-id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"1\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-room Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":13.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-room-by-id Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"1\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rooms/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rooms",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-reservations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2NjMyOTgsImlhdCI6MTc0NTY1OTY5OCwic2NvcGUiOiJST0xFX1JFQUQifQ.Ph692AQzjcSBKoLuLfk_wRSL_At5EM3remdKKZYqQmwLJLNC75iVu37WSnZxTyhx6veQkDnFtXOceA_X5hPtIDB4Kctq-qwZhUyKRyWkq1PY8JIrd8PmPn090tIBDne-zSPLdmjdcyKB3JJuB8DgfEAkHRLEYkHRsArScjHrSOtWuMfVtJ72q9jcwPOWpum7gwG5kLQ4ZLCszM41s-3JW4_bnxcZHOIyu7u3rwyiFWMyWDAJ3pWwEFkJ7BABN0B9slsVmdzWixrhdNsXDbmo1-5lW5INVQmVshras1bPO-7AOvjNuYy6bbj1nD3EqnphRMZGtbrmWMTQO3dFCZrhxA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"1\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-reservations-by-id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM1MjIsImlhdCI6MTc0NTY3OTkyMiwic2NvcGUiOiJST0xFX1JFQUQifQ.OXILEOChGIDZTPZ-Os0QzZWrmwhBwLpeZ8Ic0_o7fG9O8cZpU1bVCEZih4VRc4CmMATGZ8UrwBsOMNYZ5ev90vPovk2T46GAyZwafiPVefDXhSCpr4hQQ71WqYREPM6t499298CuGpqKu2hZcHGRVghscoKuTxpl1Ob1T7CIs1g1vKa4Kc6crjy7GtgRCzcUK6qCGYMWqBUxencGIh0ck2Du5_mh3SlBDcAETB46eY6cyHUm__yn1I6M1KXbgdUuVCMowMWwRM1Had_9baQmBW0srHlc8mcDEaT0xURFLJr6H85zDajzpNgV9fidG8RgtyOtlijuQPSN2aGdek1Zgg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"1\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reservations/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reservations",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-reservations-by-id Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODM1MjIsImlhdCI6MTc0NTY3OTkyMiwic2NvcGUiOiJST0xFX1JFQUQifQ.OXILEOChGIDZTPZ-Os0QzZWrmwhBwLpeZ8Ic0_o7fG9O8cZpU1bVCEZih4VRc4CmMATGZ8UrwBsOMNYZ5ev90vPovk2T46GAyZwafiPVefDXhSCpr4hQQ71WqYREPM6t499298CuGpqKu2hZcHGRVghscoKuTxpl1Ob1T7CIs1g1vKa4Kc6crjy7GtgRCzcUK6qCGYMWqBUxencGIh0ck2Du5_mh3SlBDcAETB46eY6cyHUm__yn1I6M1KXbgdUuVCMowMWwRM1Had_9baQmBW0srHlc8mcDEaT0xURFLJr6H85zDajzpNgV9fidG8RgtyOtlijuQPSN2aGdek1Zgg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n   \"hotelId\": \"1\",\r\n   \"roomNumber\": 1,\r\n   \"capacity\": 2,\r\n   \"pricePerNight\":12.50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reservations/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reservations",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-reservation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoidXNlcjEiLCJleHAiOjE3NDU2ODMzNzIsImlhdCI6MTc0NTY3OTc3Miwic2NvcGUiOiJST0xFX1JFQUQifQ.SJ-ch911Rmx3CnWPtKWVftNaCeGnv59opYJz7iPEzR_7fN_I0V_hRrAv_hAoBsi10lXRGyc09mBWr2j-zEqD3w9KPOMJIsnSMNNnli1KHMPHw3vQHEoBId64biyNBwHcE-h_NQGcHvjOsZroo7vFK6kO9FWMEXrkiPy8klXF9-anG0YpcSRQrQzXRIBfSaI-16fDHhNczBSZAGLMyiqc8vtgdNRybeNV8dm6WquIp4UwDAW-1C7sVofLY3P2pUJh3OsT5YOcXHSHtkRmFTIpk46mq45dn2ONYsHMzzU_9x_KdPjNVEHnrIMC1EweExLkR1-v6SJB_jow1JTnBfIP5Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"hotelId\": 10,\r\n  \"roomId\": 100,\r\n  \"guestName\": \"John Doe\",\r\n  \"checkInDate\": \"2025-05-10\",\r\n  \"checkOutDate\": \"2025-05-15\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
