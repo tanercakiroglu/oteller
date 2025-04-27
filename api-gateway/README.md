@@ -62,3 +62,12 @@ Asagida koda gomulu bir kullanici ismi sifre mevcuttur.
     return new MapReactiveUserDetailsService(user);
   }
 ```
+
+Butun projeler java 19 ile calisiyor.
+
+Hepsinde clean install aldiktan sonra bulunduklari dizinde 
+```
+    docker-compose build --no-cache 
+    docker-compose up -d 
+```
+komutlari ile calistirilabilir.
