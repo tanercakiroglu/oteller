@@ -3,6 +3,7 @@ package com.otel.hotel_service.common_config;
 
 import com.otel.hotel_service.common_config.constant.ErrorCodes;
 import com.otel.hotel_service.common_config.response.WrapperResponse;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
@@ -58,6 +59,19 @@ public class GlobalExceptionHandler {
         .build();
   }
 
+  @ExceptionHandler({EntityExistsException.class})
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+  public WrapperResponse entityExistException(EntityExistsException ex, WebRequest request) {
+
+    var errorMessages = messageSource.getMessage(ErrorCodes.ENTITY_EXIST,
+        new String[]{ex.getMessage()}, request.getLocale());
+    log.error("EntityExistsException ", ex);
+    return WrapperResponse.builder()
+        .timestamp(LocalDateTime.now())
+        .status(HttpStatus.BAD_REQUEST.value())
+        .errorMessage(List.of(errorMessages))
+        .build();
+  }
 
 
   @ExceptionHandler(value = {IllegalArgumentException.class})

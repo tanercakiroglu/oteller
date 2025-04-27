@@ -11,8 +11,6 @@ import com.otel.reservation_service.request.ReservationRequestDTO;
 import com.otel.reservation_service.response.ReservationResponseDTO;
 import com.otel.reservation_service.service.EventProducer;
 import com.otel.reservation_service.util.KafkaTestConsumer;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -154,16 +152,53 @@ class ReservationControllerTest {
     Reservation savedReservation = reservationRepository.save(existingReservation);
     Long reservationId = savedReservation.getId();
 
-    // Act
     ResponseEntity<WrapperResponse<Void>> response = restTemplate.exchange(
         "/reservations/" + reservationId + "/cancel",
         HttpMethod.DELETE,
         null,
         new ParameterizedTypeReference<>() {
         });
-    // Assert
+    boolean messageConsumed = testConsumer.getLatch().await(1, TimeUnit.SECONDS);
+    assertThat(messageConsumed).isTrue();
     assertTrue(reservationRepository.findById(reservationId).isEmpty());
     assertThat(testConsumer.getLatestPayload()).contains("\"hotelId\":1");
+  }
+
+
+  @Test
+  void shouldUpdateReservation() throws InterruptedException {
+
+    LocalDate now = LocalDate.now();
+    ReservationRequestDTO reservation = getReservationRequest(now);
+    ResponseEntity<WrapperResponse<ReservationResponseDTO>> postResponse = postReservation(
+        reservation);
+
+    Long reservationId = postResponse.getBody().get().getId();
+
+    ReservationRequestDTO updatedReservation = new ReservationRequestDTO();
+    updatedReservation.setHotelId(2L);
+    updatedReservation.setRoomId(202L);
+    updatedReservation.setGuestName("Jane Smith");
+    updatedReservation.setCheckInDate(now.plusDays(5));
+    updatedReservation.setCheckOutDate(now.plusDays(7));
+
+    HttpEntity<ReservationRequestDTO> requestEntity = new HttpEntity<>(updatedReservation);
+    ResponseEntity<WrapperResponse<ReservationResponseDTO>> putResponse = restTemplate.exchange(
+        "/reservations/" + reservationId,
+        HttpMethod.PUT,
+        requestEntity,
+         new ParameterizedTypeReference<>() {
+         });
+
+    assertThat(putResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(putResponse.getBody().getData().getGuestName()).isEqualTo("Jane Smith");
+
+    Reservation retrievedReservation = reservationRepository.findById(reservationId).orElse(null);
+    assertThat(retrievedReservation).isNotNull();
+    assertThat(retrievedReservation.getGuestName()).isEqualTo("Jane Smith");
+    boolean messageConsumed = testConsumer.getLatch().await(1, TimeUnit.SECONDS);
+    assertThat(messageConsumed).isTrue();
+    assertThat(testConsumer.getLatestPayload()).contains("\"hotelId\":2");
   }
 
 

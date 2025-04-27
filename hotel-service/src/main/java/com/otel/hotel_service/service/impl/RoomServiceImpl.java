@@ -8,6 +8,7 @@ import com.otel.hotel_service.request.RoomPutRequestDTO;
 import com.otel.hotel_service.response.RoomResponseDTO;
 import com.otel.hotel_service.service.HotelService;
 import com.otel.hotel_service.service.RoomService;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,10 @@ public class RoomServiceImpl implements RoomService {
   @Override
   public RoomResponseDTO create(RoomPostRequestDTO room) {
     hotelService.getHotelById(room.getHotelId());
+    roomRepository.findByRoomNumberAndHotelId(room.getRoomNumber(),room.getHotelId())
+        .ifPresent(entity -> {
+          throw new EntityExistsException(String.valueOf(room.getRoomNumber()));
+        });
     Room toBeSaved = roomMapper.map(room);
     return roomMapper.map(roomRepository.save(toBeSaved));
   }
