@@ -63,7 +63,7 @@ Asagida koda gomulu bir kullanici ismi sifre mevcuttur.
   }
 ```
 
-Butun projeler java 19 ile calisiyor.
+Butun projeler java 21 ile calisiyor.
 
 Hepsinde clean install aldiktan sonra bulunduklari dizinde 
 ```

@@ -1,5 +1,5 @@
 # Temel imaj olarak OpenJDK'yı kullan
-FROM openjdk:19-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Uygulama için bir dizin oluştur
 WORKDIR /app

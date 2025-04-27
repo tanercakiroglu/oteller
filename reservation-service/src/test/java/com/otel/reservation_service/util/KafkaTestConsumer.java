@@ -2,6 +2,7 @@ package com.otel.reservation_service.util;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaTestConsumer {
 
-  private final List<String> payloads = new ArrayList<>();
+  private final LinkedList<String> payloads = new LinkedList<>();
   private CountDownLatch latch = new CountDownLatch(1);
 
   @KafkaListener(topics = "${kafka.topic.reservation-created}", groupId = "${spring.kafka.consumer.group-id}")
@@ -25,7 +26,7 @@ public class KafkaTestConsumer {
   }
 
   public String getLatestPayload() {
-    return payloads.get(payloads.size() - 1);
+    return payloads.getLast();
   }
 
   public void reset() {

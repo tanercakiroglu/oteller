@@ -6,4 +6,5 @@ import lombok.experimental.UtilityClass;
 public class ErrorCodes {
 
   public static final String ENTITY_NOT_FOUND = "hotel-service.entity-not-found";
+  public static final String ENTITY_EXIST = "hotel-service.entity-exist";
 }
