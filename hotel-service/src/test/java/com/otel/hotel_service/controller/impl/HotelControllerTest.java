@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.otel.hotel_service.entity.Hotel;
 import com.otel.hotel_service.repository.HotelRepository;
+import com.otel.hotel_service.request.HotelRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ class HotelControllerTest {
 
   @Test
   void createHotel_ShouldReturnCreatedHotel_WhenHotelIsCreated() throws Exception {
-    Hotel hotel = new Hotel();
+    HotelRequestDTO hotel = new HotelRequestDTO();
     hotel.setName("Test Hotel");
     hotel.setAddress("Test Address");
     hotel.setStarRating(5);
